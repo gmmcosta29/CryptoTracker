@@ -28,7 +28,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 
 
     public SQLHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null  , 3);
+        super(context, DATABASE_NAME, null  , 4);
         this.context = context;
     }
 
@@ -79,6 +79,7 @@ public class SQLHelper extends SQLiteOpenHelper {
             cv.put(COLUMN_SYMBOL,coin.getSymbol());
             cv.put(COLUMN_PRICE,coin.getPrice());
             db.insert(TABLE_NAME,null,cv);
+            db.update(TABLE_NAME, cv, COLUMN_ID + "=?", new String[]{String.valueOf(coin.getId())});
         }
 
     }
