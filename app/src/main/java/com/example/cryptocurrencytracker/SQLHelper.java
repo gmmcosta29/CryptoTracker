@@ -10,8 +10,6 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.example.cryptocurrencytracker.CoinModel;
-
 import java.util.ArrayList;
 
 
