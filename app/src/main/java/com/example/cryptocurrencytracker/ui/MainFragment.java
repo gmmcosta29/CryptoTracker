@@ -1,6 +1,8 @@
 package com.example.cryptocurrencytracker.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.cryptocurrencytracker.CoinModel;
 import com.example.cryptocurrencytracker.R;
+import com.example.cryptocurrencytracker.SQLHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,14 +35,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainFragment extends Fragment {
-    String apiKey = "4a62b31f-a770-44b2-92c7-282fa03ebca4";
-    RecyclerView currencyRV;
-    EditText searchEdt;
-    public ArrayList<CoinModel> currencyModalArrayList;
-    CoinAdapter currencyRVAdapter;
-    ProgressBar loadingPB;
+    private String apiKey = "4a62b31f-a770-44b2-92c7-282fa03ebca4";
+    private RecyclerView currencyRV;
+    private EditText searchEdt;
+    private ArrayList<CoinModel> currencyModalArrayList;
+    private CoinAdapter currencyRVAdapter;
+    private ProgressBar loadingPB;
+    private SQLHelper sqlHelper;
+
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -83,7 +92,7 @@ public class MainFragment extends Fragment {
         //getActivity().setContentView(R.layout.activity_main);
 
         searchEdt = (EditText) v.findViewById(R.id.idedtcurrency);
-
+        sqlHelper = new SQLHelper(getActivity());
         // initializing all our variables and array list.
         loadingPB = (ProgressBar)v.findViewById(R.id.idpbloading);
         currencyRV = (RecyclerView)v.findViewById(R.id.idrvcurrency);
@@ -133,10 +142,6 @@ public class MainFragment extends Fragment {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    // inside on response method extracting data
-                    // from response and passing it to array list
-                    // on below line we are making our progress
-                    // bar visibility to gone.
                     loadingPB.setVisibility(View.GONE);
                     try {
                         // extracting data from json.
@@ -145,25 +150,30 @@ public class MainFragment extends Fragment {
                             JSONObject dataObj = dataArray.getJSONObject(i);
                             String symbol = dataObj.getString("symbol");
                             String name = dataObj.getString("name");
+                            String id = dataObj.getString("id");
                             JSONObject quote = dataObj.getJSONObject("quote");
                             JSONObject USD = quote.getJSONObject("USD");
                             double price = USD.getDouble("price");
-                            // adding all data to our array list.
-                            currencyModalArrayList.add(new CoinModel(name, symbol, price));
+                            // adding all data to our array li st.
+                            currencyModalArrayList.add(new CoinModel(name, symbol, price, Integer.valueOf(id)));
                         }
                         // notifying adapter on data change.
+                        execWrite(currencyModalArrayList);
                         currencyRVAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         // handling json exception.
                         e.printStackTrace();
-                        Toast.makeText(getActivity(), "Something went amiss. Please try again later", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Something went wrong parsing the data from the API. Please try again later", Toast.LENGTH_SHORT).show();
+
                     }
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // displaying error response when received any error.
-                    Toast.makeText(getActivity(), "Something went amiss. Please try again later", Toast.LENGTH_SHORT).show();
+                    execRead();
+                    Toast.makeText(getActivity(), "Something went wrong, so it will load offline Database", Toast.LENGTH_SHORT).show();
+
                 }
             }) {
                 @Override
@@ -180,4 +190,37 @@ public class MainFragment extends Fragment {
             // json object request to our queue.
             queue.add(jsonObjectRequest);
         }
+
+    public void execRead(){
+        executor.execute(()-> {
+            ArrayList<CoinModel> myData = new ArrayList<>();
+
+            myData = sqlHelper.getcoins();
+
+            ArrayList<CoinModel> finalMyData = myData;
+            handler.post(() -> {
+                onComplete(finalMyData);
+            });
+        });
     }
+
+    public void onComplete(ArrayList<CoinModel> coins) {
+        currencyModalArrayList.addAll(coins);
+        currencyRVAdapter.notifyDataSetChanged();
+    }
+
+    public void execWrite(ArrayList<CoinModel> coins){
+        executor.execute(()-> {
+            sqlHelper.addCoins(coins);
+            handler.post(() -> {
+                onWriteComplete();
+            });
+        });
+
+    }
+
+    public void onWriteComplete() {
+        Toast.makeText(getActivity(), "Write into database completed", Toast.LENGTH_SHORT).show();
+
+    }
+}

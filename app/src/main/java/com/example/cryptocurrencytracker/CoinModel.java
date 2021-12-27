@@ -6,11 +6,21 @@ public class CoinModel {
     private String name;
     private String symbol;
     private double price;
+    private int id;
 
-    public CoinModel(String name, String symbol, double price) {
+    public CoinModel(String name, String symbol, double price, int id) {
         this.name = name;
         this.symbol = symbol;
         this.price = price;
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
