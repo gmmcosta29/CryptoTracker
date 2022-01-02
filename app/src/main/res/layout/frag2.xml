@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_shade_1"
+    tools:context=".ui.MainFragment">
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/reportingChart"
+        android:layout_width="409dp"
+        android:layout_height="338dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="113dp"
+        android:layout_marginEnd="-3dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/white"
+        android:elevation="10dp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_grp_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="-1dp"
+        android:checkedButton="@+id/hourly_time"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/hourly_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hourly"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/daily_time"
+            android:layout_width="74dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Daily" />
+
+        <RadioButton
+            android:id="@+id/weekly_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weekly" />
+
+        <RadioButton
+            android:id="@+id/monthly_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monthly" />
+
+        <RadioButton
+            android:id="@+id/max_time"
+            android:layout_width="77dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Max" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_fullNameCoin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:text="FullName"
+        android:textColor="#FFFFFF" />
+
+    <TableLayout
+        android:layout_width="172dp"
+        android:layout_height="283dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="492dp"
+        android:layout_marginBottom="71dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:text="Coin:"
+                android:textColor="#FDFAFA" />
+
+            <TextView
+                android:id="@+id/tv_symbol"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:text="symbol" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:text="Price USD:"
+                android:textColor="#FDFAFA" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:text="price" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:text="Marketcap:"
+                android:textColor="#FDFAFA" />
+
+            <TextView
+                android:id="@+id/tv_marketcap"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:text="marketcap" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv5"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:text="Volume 24h:"
+                android:textColor="#FDFAFA" />
+
+            <TextView
+                android:id="@+id/tv_volume24h"
+                android:layout_width="126dp"
+                android:layout_height="wrap_content"
+                android:text="volume24h" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv6"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:text="Supply:"
+                android:textColor="#FDFAFA" />
+
+            <TextView
+                android:id="@+id/tv_supply"
+                android:layout_width="78dp"
+                android:layout_height="wrap_content"
+                android:text="supply" />
+        </TableRow>
+    </TableLayout>
+
+</RelativeLayout>

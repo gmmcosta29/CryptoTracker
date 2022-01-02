@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">Cryptocurrency Tracker</string>
+    <string name="app_name">Crypto Tracker</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_currency">Search Currency</string>
+
+    <string name="dash">-</string>
+    <string name="add_new_note">Add new Note</string>
+    <string name="add_sub">Sub/Unsub topics</string>
+    <string name="search_title">Search</string>
+
 </resources>
