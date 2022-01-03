@@ -10,5 +10,6 @@
     <string name="add_new_note">Add new Note</string>
     <string name="add_sub">Sub/Unsub topics</string>
     <string name="search_title">Search</string>
+    <string name="submit">ok</string>
 
 </resources>

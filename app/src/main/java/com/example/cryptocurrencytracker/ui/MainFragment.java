@@ -7,6 +7,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -30,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.cryptocurrencytracker.ChatFragment;
 import com.example.cryptocurrencytracker.CoinModel;
 import com.example.cryptocurrencytracker.R;
 import com.example.cryptocurrencytracker.SQLHelper;
@@ -60,7 +64,6 @@ public class MainFragment extends Fragment {
     public static MainFragment newInstance() {
         return new MainFragment();
     }
-
 
 
     private void filter(String filter) {
@@ -109,16 +112,39 @@ public class MainFragment extends Fragment {
             currencyRVAdapter.filterList(filteredlist);
         }
     }
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.chat_open_btn,menu);
+        //MenuItem searchMenuItem = menu.findItem(R.id.search);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if(item.getItemId() == R.id.chat_open){
 
 
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.container, ChatFragment.newInstance());
+            ft.commit();
+
+            return true;
+        }
+        return false;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
+        setHasOptionsMenu(true);
+
+
         //getActivity().setContentView(R.layout.activity_main);
         viewmodal=new ViewModelProvider(requireActivity()).get(ViewModel.class);
         searchEdt = (EditText) v.findViewById(R.id.idedtcurrency);
