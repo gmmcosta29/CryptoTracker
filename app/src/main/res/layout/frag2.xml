@@ -39,14 +39,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Time"
+            android:text="@string/time"
             android:textSize="14sp" />
 
         <RadioButton
             android:id="@+id/hourly_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hourly"
+            android:text="@string/hourly"
             android:textSize="14sp" />
 
         <RadioButton
@@ -54,26 +54,26 @@
             android:layout_width="74dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Daily" />
+            android:text="@string/daily" />
 
         <RadioButton
             android:id="@+id/weekly_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Weekly" />
+            android:text="@string/weekly" />
 
         <RadioButton
             android:id="@+id/monthly_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monthly" />
+            android:text="@string/monthly" />
 
         <RadioButton
             android:id="@+id/max_time"
             android:layout_width="77dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Max" />
+            android:text="@string/max" />
     </RadioGroup>
 
     <TextView
@@ -83,7 +83,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
-        android:text="FullName"
+        android:text="@string/fullname"
         android:textColor="#FFFFFF" />
 
     <TableLayout
@@ -102,7 +102,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv1"
                 android:layout_width="42dp"
                 android:layout_height="match_parent"
                 android:text="Coin:"
@@ -113,7 +112,7 @@
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/light_blue_600"
-                android:text="symbol" />
+                android:text="@string/symbol1" />
         </TableRow>
 
         <TableRow
@@ -121,10 +120,9 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv2"
                 android:layout_width="42dp"
                 android:layout_height="match_parent"
-                android:text="Price USD:"
+                android:text="@string/price_usd"
                 android:textColor="#FDFAFA" />
 
             <TextView
@@ -132,7 +130,7 @@
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/light_blue_600"
-                android:text="price" />
+                android:text="@string/price" />
         </TableRow>
 
         <TableRow
@@ -140,10 +138,9 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv4"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:text="Marketcap:"
+                android:text="@string/marketcap"
                 android:textColor="#FDFAFA" />
 
             <TextView
@@ -152,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/light_blue_600"
 
-                android:text="marketcap" />
+                android:text="@string/marketcap1" />
         </TableRow>
 
         <TableRow
@@ -160,10 +157,9 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv5"
                 android:layout_width="42dp"
                 android:layout_height="match_parent"
-                android:text="Volume 24h: "
+                android:text="@string/volume_24h"
                 android:textColor="#FDFAFA" />
 
             <TextView
@@ -171,7 +167,7 @@
                 android:layout_width="126dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/light_blue_600"
-                android:text="volume24h " />
+                android:text="@string/volume24h" />
 
         </TableRow>
 
@@ -180,19 +176,17 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv6"
                 android:layout_width="42dp"
                 android:layout_height="match_parent"
                 android:text="Supply:"
                 android:textColor="#FDFAFA" />
 
             <TextView
-                android:id="@+id/tv_supply"
                 android:layout_width="78dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/light_blue_600"
 
-                android:text="supply" />
+                android:text="@string/supply" />
         </TableRow>
     </TableLayout>
 

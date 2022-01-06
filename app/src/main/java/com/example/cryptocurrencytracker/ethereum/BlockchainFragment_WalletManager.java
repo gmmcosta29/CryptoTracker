@@ -43,7 +43,7 @@ public class BlockchainFragment_WalletManager extends Fragment {
     ViewModel vm;
     String curr_add;
     ProgressBar mProgressBar;
-    String infura_API_key="https://rinkeby.infura.io/v3/6e76c3f2798547aab60d11de145d70fd";
+    final String infura_API_key="https://rinkeby.infura.io/v3/6e76c3f2798547aab60d11de145d70fd";
     Info_shareVM_util infoToShare;
     public static BlockchainFragment_WalletManager newInstance() {
         return new BlockchainFragment_WalletManager();
@@ -66,30 +66,19 @@ public class BlockchainFragment_WalletManager extends Fragment {
 
         setupBouncyCastle();
         Button createWalletBtn = (Button)v.findViewById(R.id.btn_getBalanceAcc);
-        createWalletBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createWallet(v);
-            }
-        });
+        createWalletBtn.setOnClickListener(view -> createWallet(v));
         EditText title2_tmp  =(EditText) v.findViewById(R.id.walletTitle2); // Edit views for input name + password of wallet (load it)
         EditText pass2  = (EditText)v.findViewById(R.id.edt_receiverAddy);
         Button connectWalletBtn = (Button)v.findViewById(R.id.btn_connectWalletFromJson);
-        connectWalletBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println(" HERE BLOCK1");
-
-                System.out.println((title2_tmp.getText().toString()  + "--------------- " +pass2.getText().toString()));
-                credentials=loadWalletFromFile(title2_tmp.getText().toString()  , pass2.getText().toString());
-                if (credentials!=null) {
-                    vm.setInfo(new Info_shareVM_util(credentials.getAddress(), credentials,web3j));
-                    FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                    ft.replace(R.id.container, new BlockchainFragment2_Transactions());
-                    ft.commit();
-                }else{
-                    Toast.makeText(getContext(),"Error login", Toast.LENGTH_LONG).show();
-                }
+        connectWalletBtn.setOnClickListener(view -> {
+            credentials=loadWalletFromFile(title2_tmp.getText().toString()  , pass2.getText().toString());
+            if (credentials!=null) {
+                vm.setInfo(new Info_shareVM_util(credentials.getAddress(), credentials,web3j));
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.container, new BlockchainFragment2_Transactions());
+                ft.commit();
+            }else{
+                Toast.makeText(getContext(),"Error login", Toast.LENGTH_LONG).show();
             }
         });
         //INFURA API KEY ; to connect to an ETHEREUM node.
@@ -99,10 +88,10 @@ public class BlockchainFragment_WalletManager extends Fragment {
             if (!clientVersion.hasError()) {
                 Toast.makeText(getContext(), "Connected", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getContext(), clientVersion.getError().getMessage(),Toast.LENGTH_LONG).show();
+              //  Toast.makeText(getContext(), clientVersion.getError().getMessage(),Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+          //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return v;
 
@@ -147,60 +136,45 @@ public class BlockchainFragment_WalletManager extends Fragment {
         String title1_tmp =edt_title1_tmp.getText().toString();
 
         //Wallet files will be stored in a folder created; each are named after the title
-        file = new File(getContext().getFilesDir()+"/" +title1_tmp);
+        file = new File(requireContext().getFilesDir()+"/" +title1_tmp);
         if (!file.exists() ) {
             file.mkdirs();
         }
         else {
-            Toast.makeText(getContext(), "Directory already created",
-                    Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "Directory already created",Toast.LENGTH_LONG).show();
 
         }
 
         //
         try {
             // generating the etherium wallet
-            System.out.println("PATHS:"+getContext().getFilesDir()+ " FILE :"+file+ " to string:"+file.toString()+ " \n pass:"+pass1);
             wallet_title =WalletUtils.generateLightNewWalletFile(pass1,file); //WalletUtils.generateLightNewWalletFile(password, file);
-            System.out.println("HERE"+ wallet_title);
             Toast.makeText(getContext(), "Wallet generated!", Toast.LENGTH_LONG).show();
             credentials = WalletUtils.loadCredentials(pass1, file + "/" + wallet_title);
-            System.out.println("Cred:"+credentials + " atostring :"+credentials.toString() + " AGETADRESS:"+credentials.getAddress());
             tv_address.setText("New Wallet Address: " + credentials.getAddress());
 
         }
         catch(Exception e){
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+          //  Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
 
         }
 
     }
 
-    /**
-     *
-     * @param input_passWallet : String
-     * @param input_titleWallet_path : String
-     * @return Credentials
-     */
     public Credentials loadWalletFromFile(String input_titleWallet_path,String input_passWallet){
 
         try {
             Credentials res_cred;  //getContext().getFilesDir()
-            System.out.println("PATH DIR:"+getContext().getFilesDir()+"/"+input_titleWallet_path);
-            File folder = new File(getContext().getFilesDir()+"/"+input_titleWallet_path);
+            File folder = new File(requireContext().getFilesDir()+"/"+input_titleWallet_path);
             File[] listOfFiles = folder.listFiles();
 
             file = listOfFiles[0]; //get first element of folder (only element there ) , this is our wallet file
-            System.out.println("File name:;"+file.getName());
 
             String path_wallet_complete=getContext().getFilesDir()+"/"+input_titleWallet_path+"/"+file.getName();
-            System.out.println("PATH COMPLET WALLET: +: "+path_wallet_complete);
             res_cred = WalletUtils.loadCredentials(input_passWallet, path_wallet_complete );//"/data/user/0/com.example.cryptocurrencytracker/files/Test/wallet1");
 
-            System.out.println("HERE:"+res_cred);
             return res_cred;
         }catch (Exception e){
-            System.out.println("REKT TOTAL");
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return null;
@@ -211,46 +185,17 @@ public class BlockchainFragment_WalletManager extends Fragment {
     private void setupBouncyCastle() {
         final Provider provider = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME);
         if (provider == null) {
-            // Web3j will set up a provider  when it's used for the first time.
             return;
         }
         if (provider.getClass().equals(BouncyCastleProvider.class)) {
             return;
         }
-        //There is a possibility  the bouncy castle registered by android may not have all ciphers
-        //so we  substitute with the one bundled in the app.
         Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME);
         Security.insertProviderAt(new BouncyCastleProvider(), 1);
     }
-    /*
-    public void loadWallet_file(String password, String walletDirectory, String walletName) throws IOException, CipherException {
-        // password - entered while wallet creation
-// walletDirectory - specified earlier during wallet creation
-// walletName - obtained after wallet creation
-        Credentials credentials = WalletUtils.loadCredentials(password, walletDirectory + "/" + walletName);
-
-// get address
-        credentials.getAddress();
-// get balance in wei
-        EthGetBalance ethGetBalance = ethGetBalance(credentials.getAddress(), DefaultBlockParameterName.LATEST).sendAsync().get();
-// convert to ether
-        Convert.fromWei(ethGetBalance.getBalance().toString(), Convert.Unit.ETHER)
-    } */
-    /*
-    public void create_wallet_offline(){
-        try {
-            String password = "test";      // wallet password
-            String walletDirectory = getFilesDir().getAbsolutePath(); //wallet path
-            String walletName = WalletUtils.generateNewWalletFile(password, new File(walletDirectory));
-        } catch (Exception e) {
-            Toast.makeText(MainActivity.this, e.getMessage(),                                          Toast.LENGTH_LONG).show();
-        }
-    }
-
-     */
-/*
 
 
- */
+
+
 }
 

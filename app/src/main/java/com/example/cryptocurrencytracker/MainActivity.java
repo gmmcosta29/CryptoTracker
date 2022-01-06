@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +15,10 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.menu_sign_out) {
             // reset the choice
-            System.out.println(" leaving ");
             signOut();
 
             return true;
@@ -63,11 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         notificationManager = NotificationManagerCompat.from(this);
 
-        // Choose authentication providers
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
+        List<AuthUI.IdpConfig> providers = Collections.singletonList(
                 new AuthUI.IdpConfig.EmailBuilder().build());
 
-        // Create and launch sign-in intent
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
@@ -87,12 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
-            new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
-                @Override
-                public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    onSignInResult(result);
-                }
-            }
+            this::onSignInResult
     );
 
     public NotificationManagerCompat getNotificationManager() {
@@ -104,34 +93,22 @@ public class MainActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            System.out.println("im in");
-            // ...
         } else {
-            // Sign in failed. If response is null the user canceled the
-            // sign-in flow using the back button. Otherwise check
-            // response.getError().getErrorCode() and handle the error.
-            // ...
-            System.out.println("ERROR");
+            // Sign in failed.
         }
 
 
     }
 
     public void signOut() {
-        // [START auth_fui_signout]
         AuthUI.getInstance()
                 .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        // ...
-                        System.out.println("LEFT DONE SIGNOUT");
-
-                        Intent intent = getIntent();
-                        finish();
-                        startActivity(intent);
-                    }
+                .addOnCompleteListener(task -> {
+                    // ...
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
                 });
-        // [END auth_fui_signout]
     }
 
 }

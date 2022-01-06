@@ -23,7 +23,7 @@
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17708333333333334" />
-        <entry key="app/src/main/res/layout/blockchain_frag.xml" value="0.22239583333333332" />
+        <entry key="app/src/main/res/layout/blockchain_frag.xml" value="0.33" />
         <entry key="app/src/main/res/layout/chart_candlestick.xml" value="0.3234375" />
         <entry key="app/src/main/res/layout/chat_activity.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/layout/currency_rv_item.xml" value="0.1921875" />
@@ -35,6 +35,7 @@
         <entry key="app/src/main/res/layout/wallet_management_frag.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/menu/add_note.xml" value="0.5432291666666667" />
         <entry key="app/src/main/res/menu/back_btn.xml" value="0.5432291666666667" />
+        <entry key="app/src/main/res/menu/chat_open_btn.xml" value="0.20572916666666666" />
         <entry key="app/src/main/res/menu/save_btn.xml" value="0.5432291666666667" />
         <entry key="app/src/main/res/menu/search.xml" value="0.5432291666666667" />
         <entry key="app/src/main/res/menu/wallet_btn.xml" value="0.22708333333333333" />

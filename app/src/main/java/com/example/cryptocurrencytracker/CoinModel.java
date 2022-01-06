@@ -125,11 +125,4 @@ public class CoinModel {
         this.image = image;
     }
 
-    /*
-    public String toString() {
-
-        return ("This coin named"+name+" with symbol:"+symbol+" // a price:"+String.valueOf(price)+" and id :"+ String.valueOf(id));
-    }
-
-     */
 }

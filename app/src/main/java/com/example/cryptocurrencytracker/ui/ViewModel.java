@@ -6,30 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.SavedStateHandle;
 
 import com.example.cryptocurrencytracker.CoinModel;
 import com.example.cryptocurrencytracker.ethereum.Info_shareVM_util;
-
-import org.web3j.crypto.Credentials;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewModel extends AndroidViewModel {
 
-    private MutableLiveData<CoinModel> choice = new MutableLiveData<>();
+    private final MutableLiveData<CoinModel> choice = new MutableLiveData<>();
 
 
-    //Ethereum shared data between frags:
-    private MutableLiveData<Info_shareVM_util>info = new MutableLiveData<>();
-    //private NoteRepository repository;
+    private final MutableLiveData<Info_shareVM_util>info = new MutableLiveData<>();
 
-    //
-    // live data where all the notes are
-    //private LiveData<List<Ent_Note>> allCourses;
-
-    public MutableLiveData<ArrayList<CoinModel>> stateData  = new MutableLiveData<>();
+    public final MutableLiveData<ArrayList<CoinModel>> stateData  = new MutableLiveData<>();
 
 
     public ViewModel(@NonNull Application application) {
@@ -43,10 +34,7 @@ public class ViewModel extends AndroidViewModel {
     }
     public void setStateData(List<CoinModel> l){
         //stateData = (LiveData<List<CoinModel>>) l;
-        ArrayList<CoinModel> coinTmpList = new ArrayList<>();
-        for (CoinModel c:l){
-            coinTmpList.add(c);
-        }
+        ArrayList<CoinModel> coinTmpList = new ArrayList<>(l);
         stateData.setValue(coinTmpList);
     }
 

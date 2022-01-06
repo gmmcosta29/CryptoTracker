@@ -30,13 +30,10 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String COLUMN_IMG = "img_data";
 
     public static final String COLUMN_VOLUME24H = "coin_volume24h";
-    private final Context context;
-
 
 
     public SQLHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null  , 6);
-        this.context = context;
 
     }
 
@@ -71,7 +68,7 @@ public class SQLHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME,null);
         cursor.moveToFirst();
-        ArrayList<CoinModel> notes = new ArrayList<CoinModel>();
+        ArrayList<CoinModel> notes = new ArrayList<>();
         if(!cursor.moveToFirst() || cursor.getCount() == 0){
             return notes;
         }
@@ -79,12 +76,10 @@ public class SQLHelper extends SQLiteOpenHelper {
             @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(COLUMN_ID));
             @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
             @SuppressLint("Range") String symbol = cursor.getString(cursor.getColumnIndex(COLUMN_SYMBOL));
-            //@SuppressLint("Range") String img_url = cursor.getString(cursor.getColumnIndex(COLUMN_IMG));
             @SuppressLint("Range") byte[] image = cursor.getBlob(cursor.getColumnIndex(COLUMN_IMG));
             @SuppressLint("Range") double percent_change = cursor.getDouble(cursor.getColumnIndex(COLUMN_PERCENT));
             @SuppressLint("Range") double price = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE));
             @SuppressLint("Range") double volume24h = cursor.getDouble(cursor.getColumnIndex(COLUMN_VOLUME24H));
-            //notes.add(new CoinModel(title,symbol,price, id,0, img_url,percent_change,volume24h));
             notes.add(new CoinModel(title,symbol,price, id,0, getImage(image),percent_change,volume24h));
 
         } while (cursor.moveToNext());

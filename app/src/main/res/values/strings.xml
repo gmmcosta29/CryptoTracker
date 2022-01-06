@@ -1,31 +1,37 @@
 <resources>
     <string name="app_name">Crypto Tracker</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_currency">Search Currency</string>
 
-    <string name="dash">-</string>
-    <string name="add_new_note">Add new Note</string>
-    <string name="add_sub">Sub/Unsub topics</string>
-    <string name="search_title">Search</string>
-    <string name="submit">ok</string>
 
-
-    <string name="create_wallet">create wallet</string>
-    <string name="your_address_will_be_shown_here">your address will be shown here</string>
-    <string name="connect">connect to a node</string>
-    <string name="address">ADDRESS</string>
-    <string name="balance"> retrieve balance</string>
+    <string name="back">Back</string>
+    <string name="enter_the_receiver_address">Enter the receiver address</string>
+    <string name="enter_amount_of_eth_to_send">Enter amount of ETH to send</string>
+    <string name="send_eth_to_an_address">Send ETH to an address!</string>
+    <string name="make_a_transaction">Make a transaction!</string>
+    <string name="show_eth_balance">Show ETH Balance</string>
+    <string name="confirm_transaction">Confirm Transaction</string>
+    <string name="name">Name</string>
+    <string name="symbol">Symbol</string>
+    <string name="_123456">123456</string>
+    <string name="_123">123</string>
     <string name="send">Send</string>
-    <string name="please_check_your_balance"> your balance will be shown here</string>
-    <string name="your_balance">\" your balance in wei is : \"</string>
-    <string name="enter_eth_value_to_send">enter Eth value to send</string>
-    <string name="enter_wallet_name">enter wallet name</string>
-    <string name="please_enter_password">please enter password</string>
-    <string name="connect_to_etherium_network">Connect to Etherium Network</string>
-    <string name="send_etherium">Send Etherium</string>
-    <string name="your_address">\"Your address is \"</string>
+    <string name="input">Input</string>
+    <string name="chat">Chat</string>
+    <string name="time">Time</string>
+    <string name="hourly">Hourly</string>
+    <string name="daily">Daily</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="max">Max</string>
+    <string name="fullname">FullName</string>
+    <string name="symbol1">symbol</string>
+    <string name="price_usd">Price USD:</string>
+    <string name="price">price</string>
+    <string name="marketcap">Marketcap:</string>
+    <string name="marketcap1">marketcap</string>
+    <string name="volume_24h">Volume 24h:</string>
+    <string name="volume24h">volume24h</string>
+    <string name="supply">supply</string>
 
 </resources>
