@@ -41,8 +41,7 @@ public class ChatFragment extends Fragment {
         View v = inflater.inflate(R.layout.chat_activity, container, false);
         vm= new ViewModelProvider(requireActivity()).get(ViewModel.class);
         setHasOptionsMenu(true);
-        Button fab =
-                (Button)v.findViewById(R.id.send_msg_btn);
+        Button fab = (Button)v.findViewById(R.id.send_msg_btn);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

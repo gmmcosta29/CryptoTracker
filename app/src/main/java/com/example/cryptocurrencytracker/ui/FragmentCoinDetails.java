@@ -172,7 +172,11 @@ public class FragmentCoinDetails extends Fragment {
             if(item.getItemId() == R.id.notifs){
                 // reset the choice
                 //getData_from_geckoAPI();
-                System.out.println("Done");
+                /*
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.container, new BlockchainFragment());
+                ft.commit();
+                    */
                 return true;
             }
         }

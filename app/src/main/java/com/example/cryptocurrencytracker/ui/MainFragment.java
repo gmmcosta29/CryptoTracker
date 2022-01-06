@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,20 +30,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.cryptocurrencytracker.ethereum.BlockchainFragment_WalletManager;
 import com.example.cryptocurrencytracker.ChatFragment;
 import com.example.cryptocurrencytracker.CoinModel;
 import com.example.cryptocurrencytracker.R;
 import com.example.cryptocurrencytracker.SQLHelper;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -116,6 +112,7 @@ public class MainFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         MenuInflater menuInflater = getActivity().getMenuInflater();
         menuInflater.inflate(R.menu.chat_open_btn,menu);
+        menuInflater.inflate(R.menu.wallet_btn,menu);
         //MenuItem searchMenuItem = menu.findItem(R.id.search);
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -133,6 +130,13 @@ public class MainFragment extends Fragment {
             ft.commit();
 
             return true;
+        }
+        else {
+            if ( item.getItemId()==R.id.wallet_btns){
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.container, BlockchainFragment_WalletManager.newInstance());
+                ft.commit();
+            }
         }
         return false;
     }
@@ -158,7 +162,7 @@ public class MainFragment extends Fragment {
 
         if (viewmodal.getCoinsVM().getValue() !=null && !viewmodal.getCoinsVM().getValue().isEmpty()){
             currencyModalArrayList= (ArrayList<CoinModel>) viewmodal.getCoinsVM().getValue();
-            System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz------------ >>zzz :"+ currencyModalArrayList);
+            //System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz------------ >>zzz :"+ currencyModalArrayList);
             Toast.makeText(getContext(), "enter here", Toast.LENGTH_SHORT).show();
         }
 

@@ -7,6 +7,7 @@
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/drawable/ic_launcher_background.xml" value="0.34010416666666665" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/drawable/ic_my_icon.xml" value="0.34010416666666665" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/activity_main.xml" value="0.31145833333333334" />
+        <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/blockchain_frag.xml" value="0.33" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/chat_activity.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/currency_rv_item.xml" value="0.25" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/frag2.xml" value="0.25" />
@@ -14,11 +15,14 @@
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/message.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/table_layout_daa.xml" value="0.37447916666666664" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/table_layout_data.xml" value="0.32395833333333335" />
+        <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/layout/wallet_management_frag.xml" value="0.33" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/menu/add_note.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/menu/back_btn.xml" value="0.32395833333333335" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/menu/chat_open_btn.xml" value="0.38958333333333334" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/menu/logout_onmenu.xml" value="0.32395833333333335" />
+        <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/menu/notifs_btn.xml" value="0.4234375" />
         <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/menu/save_btn.xml" value="0.32395833333333335" />
+        <entry key="..\:/Users/gusta/OneDrive/Bureau/tzkzo/TrackerCrypto/tmp-main/CryptoTracker/app/src/main/res/menu/wallet_btn.xml" value="0.4234375" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.18854166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17708333333333334" />
