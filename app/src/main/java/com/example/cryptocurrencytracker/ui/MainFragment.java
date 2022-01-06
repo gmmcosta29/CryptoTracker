@@ -31,11 +31,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.cryptocurrencytracker.ethereum.BlockchainFragment_WalletManager;
 import com.example.cryptocurrencytracker.ChatFragment;
 import com.example.cryptocurrencytracker.CoinModel;
 import com.example.cryptocurrencytracker.R;
 import com.example.cryptocurrencytracker.SQLHelper;
+import com.example.cryptocurrencytracker.ethereum.BlockchainFragment_WalletManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,6 +53,10 @@ public class MainFragment extends Fragment {
     private ProgressBar loadingPB;
     private SQLHelper sqlHelper;
     private CheckBox cb_Favorite_Filter;
+    private boolean checkFavorite;
+    private final String CHANNEL_ID = "1";
+
+
     ViewModel viewmodal;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -62,7 +66,7 @@ public class MainFragment extends Fragment {
     }
 
 
-    private void filter(String filter) {
+    private void filter(String filter,boolean checked) {
         // on below line we are creating a new array list
         // for storing our filtered data.
         ArrayList<CoinModel> filteredlist = new ArrayList<>();
@@ -70,9 +74,16 @@ public class MainFragment extends Fragment {
         for (CoinModel item : currencyModalArrayList) {
             // on below line we are getting the item which are
             // filtered and adding it to filtered list.
-            if (item.getName().toLowerCase().contains(filter.toLowerCase())) {
-                filteredlist.add(item);
+            if(checked){
+                if (item.isFavorite() && item.getName().toLowerCase().contains(filter.toLowerCase())) {
+                    filteredlist.add(item);
+                }
+            }else{
+                if (item.getName().toLowerCase().contains(filter.toLowerCase())) {
+                    filteredlist.add(item);
+                }
             }
+
         }
         // on below line we are checking
         // weather the list is empty or not.
@@ -85,7 +96,7 @@ public class MainFragment extends Fragment {
             currencyRVAdapter.filterList(filteredlist);
         }
     }
-    private void filter_by_Favorite() {
+    private void filter_by_Favorite(String s,boolean checked) {
         // on below line we are creating a new array list
         // for storing our filtered data.
         ArrayList<CoinModel> filteredlist = new ArrayList<>();
@@ -93,9 +104,7 @@ public class MainFragment extends Fragment {
         for (CoinModel item : currencyModalArrayList) {
             // on below line we are getting the item which are
             // filtered and adding it to filtered list.
-            if (item.isFavorite()) {
-                filteredlist.add(item);
-            }
+
         }
         // on below line we are checking
         // weather the list is empty or not.
@@ -124,7 +133,6 @@ public class MainFragment extends Fragment {
         super.onOptionsItemSelected(item);
         if(item.getItemId() == R.id.chat_open){
 
-
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.container, ChatFragment.newInstance());
             ft.commit();
@@ -151,6 +159,7 @@ public class MainFragment extends Fragment {
 
         //getActivity().setContentView(R.layout.activity_main);
         viewmodal=new ViewModelProvider(requireActivity()).get(ViewModel.class);
+        checkFavorite = false;
         searchEdt = (EditText) v.findViewById(R.id.idedtcurrency);
         sqlHelper = new SQLHelper(getActivity());
         // initializing all our variables and array list.
@@ -162,7 +171,7 @@ public class MainFragment extends Fragment {
 
         if (viewmodal.getCoinsVM().getValue() !=null && !viewmodal.getCoinsVM().getValue().isEmpty()){
             currencyModalArrayList= (ArrayList<CoinModel>) viewmodal.getCoinsVM().getValue();
-            //System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz------------ >>zzz :"+ currencyModalArrayList);
+            System.out.println("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz------------ >>zzz :"+ currencyModalArrayList);
             Toast.makeText(getContext(), "enter here", Toast.LENGTH_SHORT).show();
         }
 
@@ -179,7 +188,7 @@ public class MainFragment extends Fragment {
         final Handler handler = new Handler();
         final int delay = 12000; // 1000 milliseconds == 1 second
         getData();
-        /*
+
         handler.postDelayed(new Runnable() {
             public void run() {
                 //System.out.println("myHandler: here!"); // Do your work here
@@ -192,7 +201,6 @@ public class MainFragment extends Fragment {
             }
         }, delay);
 
-         */
 
         // on below line we are adding text watcher for our
         // edit text to check the data entered in edittext.
@@ -211,7 +219,7 @@ public class MainFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 // on below line calling a
                 // method to filter our array list
-                filter(s.toString());
+                filter(s.toString(),checkFavorite);
             }
         });
 
@@ -242,13 +250,9 @@ public class MainFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //set your object's last status
                 System.out.println(" CHECKED ");
-                if (isChecked){
-                    filter_by_Favorite();
-                }
-                else{
-                    //if ()
-                    filter("");
-                }
+                //filter_by_Favorite();
+                checkFavorite = isChecked;
+                filter("",checkFavorite);
             }
         });
         return v;
@@ -298,6 +302,11 @@ public class MainFragment extends Fragment {
                                         currencyModalArrayList.get(j).setPrice(price);
                                         currencyModalArrayList.get(j).setChange_percentage24h(percent_change24h);
                                         currencyModalArrayList.get(j).setVolume24h(volume24h);
+                                        /*
+                                        if(percent_change24h > 0){
+
+                                        }*/
+
                                     }
                                 }
                             }
@@ -323,6 +332,7 @@ public class MainFragment extends Fragment {
                 public void onErrorResponse(VolleyError error) {
                     // displaying error response when received any error.
                     execRead();
+
                     Toast.makeText(getActivity(), "Something went wrong, so it will load offline Database", Toast.LENGTH_SHORT).show();
 
                 }
@@ -374,7 +384,7 @@ public class MainFragment extends Fragment {
     }
 
     public void onWriteComplete() {
-        Toast.makeText(getActivity(), "Write into database completed", Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getActivity(), "Write into database completed", Toast.LENGTH_SHORT).show();
 
     }
 }

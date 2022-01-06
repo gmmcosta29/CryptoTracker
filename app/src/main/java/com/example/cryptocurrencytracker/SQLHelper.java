@@ -7,10 +7,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 
@@ -23,14 +26,16 @@ public class SQLHelper extends SQLiteOpenHelper {
     public static final String COLUMN_SYMBOL = "coin_symbol";
     public static final String COLUMN_PRICE = "coin_price";
     public static final String COLUMN_PERCENT = "coin_percent";
-    public static final String COLUMN_IMG = "img_url";
+    //public static final String COLUMN_IMG = "img_url";
+    public static final String COLUMN_IMG = "img_data";
+
     public static final String COLUMN_VOLUME24H = "coin_volume24h";
     private final Context context;
 
 
 
     public SQLHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null  , 4);
+        super(context, DATABASE_NAME, null  , 6);
         this.context = context;
 
     }
@@ -47,7 +52,7 @@ public class SQLHelper extends SQLiteOpenHelper {
                 + COLUMN_ID + " TEXT PRIMARY KEY , " +
                 COLUMN_NAME + " TEXT, " +
                 COLUMN_SYMBOL + " TEXT, " +
-                COLUMN_IMG + " TEXT, " +
+                COLUMN_IMG + " BLOB, " +
                 COLUMN_PERCENT + " DOUBLE, " +
                 COLUMN_VOLUME24H + " DOUBLE, " +
                 COLUMN_PRICE + " DOUBLE);"
@@ -74,11 +79,14 @@ public class SQLHelper extends SQLiteOpenHelper {
             @SuppressLint("Range") String id = cursor.getString(cursor.getColumnIndex(COLUMN_ID));
             @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
             @SuppressLint("Range") String symbol = cursor.getString(cursor.getColumnIndex(COLUMN_SYMBOL));
-            @SuppressLint("Range") String img_url = cursor.getString(cursor.getColumnIndex(COLUMN_IMG));
+            //@SuppressLint("Range") String img_url = cursor.getString(cursor.getColumnIndex(COLUMN_IMG));
+            @SuppressLint("Range") byte[] image = cursor.getBlob(cursor.getColumnIndex(COLUMN_IMG));
             @SuppressLint("Range") double percent_change = cursor.getDouble(cursor.getColumnIndex(COLUMN_PERCENT));
             @SuppressLint("Range") double price = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE));
             @SuppressLint("Range") double volume24h = cursor.getDouble(cursor.getColumnIndex(COLUMN_VOLUME24H));
-            notes.add(new CoinModel(title,symbol,price, id,0, img_url,percent_change,volume24h));
+            //notes.add(new CoinModel(title,symbol,price, id,0, img_url,percent_change,volume24h));
+            notes.add(new CoinModel(title,symbol,price, id,0, getImage(image),percent_change,volume24h));
+
         } while (cursor.moveToNext());
 
         cursor.close();
@@ -95,7 +103,7 @@ public class SQLHelper extends SQLiteOpenHelper {
             cv.put(COLUMN_ID, coin.getId());
             cv.put(COLUMN_NAME, coin.getName());
             cv.put(COLUMN_SYMBOL, coin.getSymbol());
-            cv.put(COLUMN_IMG, coin.getImage_url());
+            cv.put(COLUMN_IMG, getBytes(coin.getImage()));
             cv.put(COLUMN_PERCENT, coin.getChange_percentage24h());
             cv.put(COLUMN_PRICE, coin.getPrice());
             cv.put(COLUMN_VOLUME24H,coin.getVolume24h());
@@ -113,6 +121,19 @@ public class SQLHelper extends SQLiteOpenHelper {
 
         }
 
+    }
+    //bitmap to byte
+    public static byte[] getBytes(Bitmap bitmap) {
+        if(bitmap == null) return null;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        return stream.toByteArray();
+    }
+
+    //   byte array to bitmap
+    public static Bitmap getImage(byte[] image) {
+        if(image == null)return null;
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
     }
 
 

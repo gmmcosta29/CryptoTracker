@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="17dp"
-        android:layout_marginBottom="175dp" />
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="145dp" />
 
     <EditText
         android:id="@+id/edt_receiverAddy"

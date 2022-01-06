@@ -1,5 +1,7 @@
 package com.example.cryptocurrencytracker;
 
+import android.graphics.Bitmap;
+
 public class CoinModel {
     // variable for currency name,
     // currency symbol and price.
@@ -10,6 +12,8 @@ public class CoinModel {
     private int int_id;
     private String id;
     private String image_url;
+    private Bitmap image;
+
 
     private boolean isFavorite;
     public CoinModel(String name, String symbol, double price, String id,int int_id , String img,double percent,double volume24h) {
@@ -20,6 +24,20 @@ public class CoinModel {
         this.id = id;
         this.int_id=int_id;
         this.image_url = img;
+        this.change_percentage24h=percent;
+        this.volume24h=volume24h;
+        //
+        isFavorite=false;
+
+    }
+    public CoinModel(String name, String symbol, double price, String id,int int_id , Bitmap img,double percent,double volume24h) {
+        //set up vars
+        this.name = name;
+        this.symbol = symbol;
+        this.price = price;
+        this.id = id;
+        this.int_id=int_id;
+        this.image = img;
         this.change_percentage24h=percent;
         this.volume24h=volume24h;
         //
@@ -98,6 +116,15 @@ public class CoinModel {
     public void setImage_url(String image_url) {
         this.image_url = image_url;
     }
+
+    public Bitmap getImage() {
+        return image;
+    }
+
+    public void setImage(Bitmap image) {
+        this.image = image;
+    }
+
     /*
     public String toString() {
 

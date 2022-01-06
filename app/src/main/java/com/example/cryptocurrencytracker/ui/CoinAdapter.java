@@ -1,7 +1,6 @@
 package com.example.cryptocurrencytracker.ui;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -12,12 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,7 +68,7 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CurrencyViewho
         holder.rateTV.setText("$ " + df2.format(modal.getPrice()));
         holder.symbolTV.setText(modal.getSymbol());
         System.out.println(" HERE zzzz");
-        double value_percentage = (modal.getChange_percentage24h());
+        double value_percentage = modal.getChange_percentage24h();
         String str_value_percentage="";
         if (value_percentage >= 0){
             str_value_percentage="+"+df2.format(value_percentage)+"%";
@@ -91,7 +88,19 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CurrencyViewho
 
         String logoImageTag = (String) holder.logoIV.getTag();
         //if(logoImageTag.compareTo("initialImg")==0){
-        new DownloadImageTask((ImageView) holder.logoIV).execute(modal.getImage_url());
+        System.out.println("HOLDER VIEWER ->" + holder.logoIV.getDrawable());
+        if(modal.getImage() != null){
+            holder.logoIV.setImageBitmap(modal.getImage());
+        }else{
+            new DownloadImageTask((ImageView) holder.logoIV, modal).execute(modal.getImage_url());
+
+        }
+
+
+
+        // BitmapDrawable drawable = (BitmapDrawable) holder.logoIV.getDrawable();
+       // BitmapDrawable drawable = (BitmapDrawable) this.bmImage.getDrawable();
+       // Bitmap bitmap = drawable.getBitmap();
         //    holder.logoIV.setTag("logoSet");
         //}
         //holder.cb.
@@ -110,6 +119,8 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CurrencyViewho
                 modal.setFavorite(isChecked);
             }
         });
+        //holder.logoIV.buildDrawingCache();
+
     }
 
     @Override
@@ -175,9 +186,11 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CurrencyViewho
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
+        CoinModel model;
 
-        public DownloadImageTask(ImageView bmImage) {
+        public DownloadImageTask(ImageView bmImage, CoinModel modal) {
             this.bmImage = bmImage;
+            this.model = modal;
         }
 
         protected Bitmap doInBackground(String... urls) {
@@ -193,8 +206,11 @@ public class CoinAdapter extends RecyclerView.Adapter<CoinAdapter.CurrencyViewho
             return mIcon11;
         }
 
-        protected void onPostExecute(Bitmap result) {
+        protected void onPostExecute(Bitmap result)
+        {
             bmImage.setImageBitmap(result);
+            model.setImage(result);
+
         }
         public ImageView getImgView(){
             return bmImage;

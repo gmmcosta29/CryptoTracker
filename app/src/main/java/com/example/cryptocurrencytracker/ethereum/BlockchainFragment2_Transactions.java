@@ -1,14 +1,8 @@
 package com.example.cryptocurrencytracker.ethereum;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Address;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,46 +11,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.cryptocurrencytracker.MainActivity;
 import com.example.cryptocurrencytracker.R;
 import com.example.cryptocurrencytracker.ui.MainFragment;
 import com.example.cryptocurrencytracker.ui.ViewModel;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.w3c.dom.Text;
-import org.web3j.abi.FunctionEncoder;
-import org.web3j.abi.FunctionReturnDecoder;
-import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.RemoteCall;
-import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
-import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
 
 import java.io.File;
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.security.Provider;
 import java.security.Security;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.function.Function;
+import java.util.Random;
 
 public class BlockchainFragment2_Transactions extends Fragment {
     Web3j web3j;
@@ -67,6 +50,8 @@ public class BlockchainFragment2_Transactions extends Fragment {
     EditText edit_amount_ether,addressReceiver;
     TextView tv_connectWalletAddyDisplay;
     ViewModel vm;
+    private final String CHANNEL_ID = "1";
+
     public static BlockchainFragment2_Transactions newInstance() {
         return new BlockchainFragment2_Transactions();
     }
@@ -119,12 +104,12 @@ public class BlockchainFragment2_Transactions extends Fragment {
             Web3ClientVersion clientVersion = web3j.web3ClientVersion()
                     .sendAsync().get();
             if (!clientVersion.hasError()) {
-                Toast.makeText(getContext(), "Connected", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Connected", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getContext(), clientVersion.getError().getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), clientVersion.getError().getMessage(),Toast.LENGTH_LONG).show();
             }
         } catch (Exception e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
         return v;
 
@@ -176,7 +161,7 @@ public class BlockchainFragment2_Transactions extends Fragment {
             balance_tv.setText("ETH Balance: "+Convert.fromWei(balanceWei.getBalance().toString(), Convert.Unit.ETHER));
         }
         catch (Exception e){
-            Toast.makeText(getContext(), "Balance request failed!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Balance request failed!", Toast.LENGTH_LONG).show();
 
         }
 
@@ -193,10 +178,10 @@ public class BlockchainFragment2_Transactions extends Fragment {
             new TaskSendTransactionOnEthereum().execute(addyToSend,String.valueOf(ethToSend));
             //TransactionReceipt receipt =
             //Toast.makeText(getContext(), "Transaction successful: " +receipt.getTransactionHash(), Toast.LENGTH_LONG).show();
-            Toast.makeText(getContext(), "Transaction sent! ", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Transaction sent! ", Toast.LENGTH_LONG).show();
         }
         catch(Exception e){
-            Toast.makeText(getContext(), "Low balance", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Low balance", Toast.LENGTH_LONG).show();
 
         }
     }
@@ -262,7 +247,7 @@ public class BlockchainFragment2_Transactions extends Fragment {
             String addy_to_send = params[0];
             System.out.println(addy_to_send + " PARAMS: + "+params);
             double ethamount = Double.parseDouble(params[1]);
-            TransactionReceipt res;
+            TransactionReceipt res = null;
 
             // Do something that takes a long time, for example:
             try {
@@ -271,7 +256,7 @@ public class BlockchainFragment2_Transactions extends Fragment {
                 e.printStackTrace();
             }
 
-            return "this string is passed to onPostExecute";
+            return res.getBlockHash();
         }
 
         // This is called from background thread but runs in UI
@@ -286,9 +271,14 @@ public class BlockchainFragment2_Transactions extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            System.out.println(result + " Its done!");
             pb.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "Transaction succesfull background! ", Toast.LENGTH_LONG).show();
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
+                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark_normal)
+                    .setContentText("Transaction successfully background HashCode: "+ result)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+            Random notification_id = new Random();
+            ((MainActivity)getActivity()).getNotificationManager().notify(notification_id.nextInt(100), builder.build());
             // Do things like hide the progress bar or change a TextView
 
         }
